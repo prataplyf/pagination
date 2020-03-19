@@ -1,0 +1,79 @@
+<!doctype html>
+<html>
+<head>
+<link rel='stylesheet' type='text/css'  href="{{ url_for('static', filename='style.css')}}">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css">
+</head>
+   <body>
+    <form method='POST' action="{{  url_for('search') }}">
+        <table style="margin-left:150px;">
+            <tr><td><span style="font-size:24px; font-weight:bold; padding-left:20px; padding-right:10px"> Search</span></td>
+                <td> 
+                    <span style="font-size:24px; font-weight:bold; padding-left:30px; padding-right:150px">  
+                        <input type = "text" name="search" placeholder="Search by Name / Email" width:200% /></td>
+                    </span>
+                <td><span style="padding-left:30px; padding-right:50px">  </td>
+                <td><span style="padding-left:30px; padding-right:50px">  </td>
+            </tr>
+            
+            <tr><td colspan="4" text-align="center"> <input type="submit" value="Search" /></td></tr>
+        </table>
+
+    </form>
+    <form action='{{ url_for("index") }}' method='POST'> 
+            {% if count %}
+
+                {% if count >= 1 %}
+                    <div class="searchresult">
+                    <span style="text-align:right;margin-right:0px"><a href='{{url_for("index")}}'>Home</a></span>
+                    <span style="text-align:left;margin-left:10%"><a href='{{url_for("search")}}'>All Records</a></span>
+                    <p style="text-align:left; margin-left:20px; font-size:14px;"> 
+                        <span style="font-weight:bold;">{{ count }}</span> {{ text }} <span style="font-weight:bold;"> {{ message }}</span>
+                    </p>
+                        <table id="resulttable" >
+                            <tr>
+                                <th> <span style="padding-left:20px; padding-right:20px"> ID </span></th>
+                                <th> <span style="padding-left:20px; padding-right:80px"> Name </span></th>
+                                <th> <span style="padding-left:80px; padding-right:80px"> Email </span></th>
+                                <th> <span style="padding-left:80px; padding-right:80px"> Contact Number </span></th>
+                                <th> <span style="padding-left:80px; padding-right:80px"> TimeStamp </span></th>
+                            </tr>
+                            {% for element in data %}
+                                {% for v in element.values() %}
+                                    <td>{{ v }}</td>
+                                {% endfor %}
+                                </tr>
+                            {% endfor %}
+                        </table>
+                        <a href='{{url_for("search")}}'>First</a>&nbsp;&nbsp;&nbsp;
+                        <a href='{{url_for("prevpage")}}'>Prev</a>&nbsp;&nbsp;&nbsp;<a href='{{url_for("nextpage")}}'>Next</a>&nbsp;&nbsp;&nbsp;
+                        <a href='{{url_for("lastpage")}}'>Last</a>&nbsp;&nbsp;&nbsp;
+                    </div>
+                {% endif %}
+
+           {% endif %}
+
+
+            {% if not count %}
+                <div class="searchresult">
+                    <span style="text-align:right"><a href='{{url_for("index")}}'>Home</a></span>
+                    <span style="text-align:left;margin-left:10%"><a href='{{url_for("search")}}'>All Records</a></span>
+                    <p style="text-align:left; margin-left:20px; font-size:14px;"> 
+                        <span style="font-weight:bold;">{{ count }}</span> {{ text }} <span style="font-weight:bold;"> {{ message }}</span>
+                    </p>
+                        <table id="resulttable" >
+                           <tr>
+                                <th> <span style="padding-left:20px; padding-right:20px"> ID </span></th>
+                                <th> <span style="padding-left:20px; padding-right:800px"> Name </span></th>
+                                <th> <span style="padding-left:800px; padding-right:800px"> Email </span></th>
+                                <th> <span style="padding-left:800px; padding-right:800px"> Contact Number </span></th>
+                                <th> <span style="padding-left:800px; padding-right:800px"> TimeStamp </span></th>
+                            </tr>
+                            <tr><td colspan="4"> {{ count }} {{ message }} </td></tr>
+                        </table>
+                        <a href="#">prev</a>&nbsp;&nbsp;&nbsp;<a href='{{url_for("search")}}'>next</a>
+                    </div>
+            {% endif %}            
+    </form>
+   </body>
+</html>
